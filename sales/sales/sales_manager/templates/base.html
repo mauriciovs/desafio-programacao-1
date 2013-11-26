@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css"/>
+    </head>
+    <body>
+
+        <title>Registro de vendas</title>
+
+        <div class="corpo">
+            {% block conteudo%}
+            <form method="POST" action="/processar/" role="form">
+                <p>Selecione um arquivo e clique em enviar.</p>
+                <div  class="form-group">
+                    {% csrf_token %}
+                    {{ form }}
+                </div>
+                <input type="submit" name="enviar" value="Enviar">
+       	    </form><br><hr><br>
+	        {% if itens %}
+                <table class="table table-bordered">
+                    <thead>
+                        <tr scope="row">
+                            <th>Comprador</th>
+                            <th>Descrição do item</th>
+                            <th>Preço unitário do item</th>
+                            <th>Quantidade de itens</th>
+                            <th>Endereço do comprador</th>
+                            <th>Nome do comprador</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in itens %}
+                            <tr scope="row">
+                                <td>{{ item.purchaser_name }}</td>
+                                <td>{{ item.item_description }}</td>
+                                <td>R$ {{ item.item_price }}</td>
+                                <td>{{ item.purchase_count }}</td>
+                                <td>{{ item.merchant_address }}</td>
+                                <td>{{ item.merchant_name }}</td>
+                            </tr>
+                        {% endfor %}
+                        <tr>
+                            <td colspan=6>
+                                Valor total R$ {{ valor_total }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            {% endif %}
+            {% endblock %}
+        </div>
+        
+        <div class="rodape">
+            {% block rodape %}
+            {% endblock %}
+        </div>
+
+    </body>
+</html>
